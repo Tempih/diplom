@@ -1,0 +1,245 @@
+
+<form id="k_or_tree" action="" method="post">
+{% csrf_token %}
+<div class="field">
+    <label for="id_par1" class="field__label">{{ form.par1.label }}</label>
+            {{ form.par1 }}
+        </div>
+    <div class="field">
+        <label for="id_par2" class="field__label">{{ form.par2.label }}</label>
+        {{ form.par2 }}</div>
+
+<input id='ddf' type="submit" value="Обучить"/>
+<input id='sub_stop' type="submit" value="Остановить"/>
+    <div id='loading2' class="loader loader--style8">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+    <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="8" y="10" width="4" height="10" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="16" y="10" width="4" height="10" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+  </svg>
+</div>
+</form>
+<form id="prediction" action="" method="post">
+    {% csrf_token %}
+
+    <textarea class="text_info textarea textarea--wide" id="predict"></textarea>
+    <div>
+    <input id='pred' type="submit" value="Определить тему"/>
+        <input id='test_viborka' type="submit" value="Использовать тестовую выборку"/>
+        </div>
+    <div id='loading1' class="loader loader--style8">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+    <rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="8" y="10" width="4" height="10" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="16" y="10" width="4" height="10" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+  </svg>
+</div>
+    <div id="class"></div>
+</form>
+<script>
+    setTimeout(function() {
+        var k_or_tree = $('#id_par1').val()+','+$('#id_par2').val();
+                                $('#ddf').css({'display': 'block'})
+
+        $.ajax({
+            url: 'ml/',
+            dataType: 'json',
+            type: 'POST',
+            data: {"status":4, 'par1': k_or_tree},
+            success: function (response) {
+                            if($('.tabs__link_active').text()== 'k Ближайших Соседей')
+                $('#ddf').css({'display': 'none'})
+            else if ($('.tabs__link_active').text()== 'Дерево решений'){
+                $('#ddf').css({'display': 'block'})
+                $('#prediction').css({'display':'block'})}
+
+                if (response.stat == 'ok')
+               $('#prediction').css({'display':'block'})
+               if (response.stat == 2) {
+                    $('#loading2').css({'display':'none'})
+                    $('#prediction').css({'display': 'block'})
+                }
+                else if(response.stat == 1){
+                    if ($('.tabs__link_active').text()== 'Дерево решений'){
+                                        $('#ddf').css({'display': 'none'})
+                                                $('#sub_stop').css({'display':'inline-block'})
+
+                                        $('#loading2').css({'display':'block'})
+                                            $('#prediction').css({'display':'none'})}
+                    else if($('.tabs__link_active').text()== 'k Ближайших Соседей') {
+                        $('#prediction').css({'display': 'block'})
+                        $('#ddf').css({'display': 'none'})
+                                $('#sub_stop').css({'display':'none'})
+
+                    }
+    var t = setInterval(function() {
+            $.ajax({
+                    url: 'ml/',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"status": 4, 'par1': k_or_tree},
+                    success: function (response) {
+                        if (response.stat == 2 || response.stat=='ok') {
+                            $('#loading2').css({'display': 'none'})
+                            $('#prediction').css({'display': 'block'})
+                            $('#ddf').css({'display': 'block'})
+$('#sub_stop').css({'display':'none'})
+                            clearInterval(t)
+                        }
+                    }
+                }
+            )
+        }
+            , 5000)
+                }
+
+                else if(response.stat == 0){
+                     $('#loading2').css({'display':'none'})
+                     $('#prediction').css({'display':'none'})
+                   $('#sub_stop').css({'display':'none'})
+                    if ($('.tabs__link_active').text()== 'k Ближайших Соседей') {
+                        $('#ddf').css({'display': 'none'})
+                        $('#sub_stop').css({'display':'none'})
+                                         $('#prediction').css({'display':'block'})}
+}
+                }
+
+
+
+    })},1);
+</script>
+<script>
+$("#k_or_tree").on('submit',function (e) {
+        e.preventDefault();
+        $('#loading2').css({'display':'block'})
+        $('#sub_stop').css({'display':'inline-block'})
+        var k_or_tree = $('#id_par1').val()+','+$('#id_par2').val();
+        $.ajax({
+            url: 'ml/',
+            method:"POST",
+            dataType: 'json',
+            type: 'POST',
+            data: {'par1': k_or_tree, 'status': $('.tabs__link_active').text()},
+            success: function (response) {
+                 if(response.stat == 1){
+                    if ($('.tabs__link_active').text()== 'Дерево решений'){
+                                        $('#ddf').css({'display': 'none'})
+                                        $('#loading2').css({'display':'block'})
+                                            $('#prediction').css({'display':'none'})}
+                       var t = setInterval(function() {
+            $.ajax({
+                    url: 'ml/',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {"status": 4, 'par1': k_or_tree},
+                    success: function (response) {
+                        if (response.stat == 2 || response.stat=='ok') {
+                            $('#loading2').css({'display': 'none'})
+                            $('#sub_stop').css({'display':'none'})
+                            $('#prediction').css({'display': 'block'})
+                            $('#ddf').css({'display': 'block'})
+                            clearInterval(t)
+                        }
+                    }
+                }
+            )
+        }
+            , 5000)
+                }
+            }
+        })
+}
+);
+</script>
+
+<script>
+$("#prediction").on('submit',function (e) {
+        e.preventDefault();
+                var k_or_tree = $('#id_par1').val()+','+$('#id_par2').val();
+
+                        $('#class').css({'display':'none'})
+    $('#loading1').css({'display':'inline-block'})
+        $.ajax({
+            url: 'predict/',
+            method:"POST",
+            dataType: 'json',
+            type: 'POST',
+            data: {"status":0,'text_for_prediction':$('#predict').val(),'par1': k_or_tree, 'metod': $('.tabs__link_active').text()},
+            success: function (response) {
+                    $('#loading1').css({'display':'none'})
+
+                        $('#class').css({'display':'block'})
+
+                $('#class').text("Тема текста:"+response.prediction)
+            }
+        })
+}
+);
+</script>
+<script>
+$("#sub_stop").on('click',function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: 'stop/',
+            method:"POST",
+            dataType: 'json',
+            type: 'POST',
+            success: function () {
+                                            $('#loading2').css({'display': 'none'})
+                            $('#sub_stop').css({'display':'none'})
+                            $('#ddf').css({'display': 'block'})
+            }})})
+    </script>
+<script>
+$("#test_viborka").on('click',function (e) {
+        e.preventDefault();
+                        $('#class').css({'display':'none'})
+    if($('.tabs__link_active').text()== 'k Ближайших Соседей') {
+        $('#pred').css({'display': 'none'})
+        $('#test_viborka').css({'display': 'none'})
+    }
+        var k_or_tree = $('#id_par1').val()+','+$('#id_par2').val();
+    $('#loading1').css({'display':'inline-block'})
+        $.ajax({
+            url: 'predict/',
+            method:"POST",
+            dataType: 'json',
+            type: 'POST',
+            data: {"status":1,'text_for_prediction':$('#predict').val(),'par1': k_or_tree, 'metod': $('.tabs__link_active').text()},
+            success: function (response) {
+                $('#class').css({'display':'block'})
+                    $('#loading1').css({'display':'none'})
+        $('#pred').css({'display':'inline-block'})
+    $('#test_viborka').css({'display':'inline-block'})
+                $('#class').html('Recall:'+response.recall+'<br>Precision:'+response.precision)
+            }
+        })
+}
+);
+</script>

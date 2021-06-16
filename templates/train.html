@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="{% static 'js/chosen.jquery.js' %}"></script>
+<script src="{% static 'js/test.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/chosen/chosen.min.css'%}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/chosen/test.css'%}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+<main class="page-main">
+
+<form id="form" action="" method="post" class="form">
+
+{% csrf_token %}
+    <div class="field">
+            <label class="field__label" for="id_categories">{{ form.categories.label }}</label>
+            {{ form.categories }}
+        </div>
+        <div class="field">
+            <label class="field__label" for="id_kol_slov_v_slovare">{{ form.kol_slov_v_slovare.label }}</label>
+            {{ form.kol_slov_v_slovare }}
+        </div>
+      <div class="loading" ></div>
+
+      <input id="accept" type="submit" value="Преобразовать">
+
+</form>
+                <div id='loading13' class="loader loader--style8">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+    <rect x="0" y="10" width="4" height="20" fill="#333" opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="8" y="10" width="4" height="20" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="16" y="10" width="4" height="20" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+  </svg>
+</div>
+<div id="area">
+     <div class="row row--sb">
+    <textarea class="text_info textarea" id="textarea_1" readonly></textarea>
+    <textarea class="text_info textarea" id="textarea_2" readonly></textarea>
+     </div>
+</div>
+            <div id='loading12' class="loader loader--style8">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+    <rect x="0" y="10" width="4" height="20" fill="#333" opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="8" y="10" width="4" height="20" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+    <rect x="16" y="10" width="4" height="20" fill="#333"  opacity="0.2">
+      <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+      <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s" repeatCount="indefinite" />
+    </rect>
+  </svg>
+</div>
+<button class="choise" type="button">Посмотреть другие данные</button>
+
+<div class="tabs" >
+    <div class="tabs__nav">
+    <a class="tabs__link tabs__link_active" href="#content-1" onclick="return false;">Дерево решений</a>
+    <a class="tabs__link" href="#content-2" onclick="return false;">k Ближайших Соседей</a>
+    </div>
+    <div class="tabs__content">
+        <div class="tabs__pane tabs__pane_show" id="content-1">
+            </div>
+        <div class="tabs__pane" id="content-2">
+        </div>
+        </div>
+</div>
+    </main>
+</body>
+</html>
+<script>
+    tabs('.tabs');
+
+        $.ajaxSetup({
+  headers: { "X-CSRFToken": '{{csrf_token}}' }
+});
+    setTimeout(function() {
+        $("#accept").css({'display':'none'})
+                            $('#loading13').css({'display':'inline-block'})
+
+        $.ajax({
+            url: '',
+            dataType: 'json',
+            type: 'POST',
+            data: {"status":3},
+            success: function (response) {
+                $("#accept").css({'display':'block'})
+                                            $('#loading13').css({'display':'none'})
+
+                $('.choise').css({'display':'inline-block'})
+                $('.tabs').css({'display':'block'})
+                $("#area").css({'display':'block'})
+                $('.tabs__pane_show').load("{% url 'ml' %}")
+                for(i=0; i<response.dist_for_paste.length; i++) {
+                    var z  = response.dist_for_paste[i]
+                    $('#id_categories option:contains('+z+')').prop('selected', true);
+                    console.log(z);
+                }
+                $("#id_categories").trigger("chosen:updated");
+                $("#textarea_1").text(response.text_for)
+                $("#textarea_2").text(response.text_preobraz)
+
+
+
+    },
+        error: function(){
+                                                            $('#loading13').css({'display':'none'})
+                            $('#accept').css({'display':'inline-block'})
+
+            }
+        })},100);
+
+</script>
+<script>
+
+$("#id_categories").chosen({max_selected_options: 5,default_multiple_text: "Выберете темы"})
+</script>
+<script>
+    $loading = $(".loading");
+var svgStrokeLength = 380;
+
+
+        $("#form").submit(function (e) {
+
+            e.preventDefault();
+            console.log($('#id_categories').val())
+            $('.tabs').css({'display':'none'})
+            $('.choise').css({'display':'none'})
+            $("#area").css({'display':'none'})
+            $('.loading').css({'display':'block'})
+ $(".loading").html('<svg class="svg2" xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 124 124">\n' +
+      '    <circle id="circle" class="circle-bg" cx="62" cy="62" r="59" />\n' +
+      '    <circle id="circle" class="circle-color" cx="62" cy="62" r="59" transform="rotate(-90 62 62)" />\n' +
+      '    <polyline id="check" class="check" points="73.56 48.63 57.88 72.69 49.38 62" />\n' +
+      '  </svg>')
+            loading(90, 325000);
+            var form_data = JSON.stringify($('#id_categories').val());
+        $.ajax({
+            url: '',
+            dataType: 'json',
+            type: 'POST',
+            data: {'categories': form_data, 'status': 0, 'max_features': $('#id_kol_slov_v_slovare').val()},
+            success: function (response) {
+                $loading.find("circle.circle-color").stop()
+                loading(100, 500);
+                setTimeout(function() {
+                                        $('.choise').css({'display':'inline-block'})
+                                    $('.tabs').css({'display':'block'})
+                                    $(".svg2").remove()
+                                    $("#area").css({'display':'block'})
+                                    $('.loading').css({'display':'none'})
+                                    $("#textarea_1").text(response.text_for)
+                $("#textarea_2").text(response.text_preobraz)
+                    $('.tabs__pane_show').load("{% url 'ml' %}");
+
+                }, 510);
+
+
+
+            }
+            }
+
+        );
+    });
+
+</script>
+<script>
+            $(".choise").click(function () {
+                    $('#loading12').css({'display':'inline-block'})
+                $(".choise").css({'display':'none'})
+
+        $.ajax({
+            url: '',
+            type: 'POST',
+            data: {'status': 1},
+             success: function (response) {
+                $("#textarea_1").text(response.text_for)
+                                     $('#loading12').css({'display':'none'})
+                 $(".choise").css({'display':'block'})
+
+                 $("#textarea_2").text(response.text_preobraz)
+             }})})
+</script>
+<script>
+$(document).on('click', '.tabs__nav', function() {
+    $("#k_or_tree").remove()
+    $("#prediction").remove()
+    $.ajax({
+        url: '',
+        dataType: 'json',
+        type: 'POST',
+        data: {'status': $('.tabs__link_active').text()},
+        success: function (response) {
+            $('.tabs__pane_show').load("{% url 'ml' %}");
+
+        }
+    }
+    )
+});
+</script>
